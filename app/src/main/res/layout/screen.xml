@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#ffff"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/textview_input1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textSize="40sp"
+        android:maxLength="10"
+        android:paddingTop="8dp"
+        android:textStyle="bold"
+        android:gravity="end" />
+    <TextView
+        android:id="@+id/textview_func"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:gravity="start"
+        android:paddingLeft="4dp"
+        tools:ignore="RtlSymmetry" />
+    <TextView
+        android:id="@+id/textview_input2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:textSize="40sp"
+        android:maxLength="10"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"
+        android:gravity="end" />
+    <TextView
+        android:background="@color/colorButtonTxt"
+        android:id="@+id/textview_result"
+        android:textAlignment="textEnd"
+        android:textSize="50sp"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end" />
+</LinearLayout>

@@ -3,4 +3,8 @@
     <color name="color_primary">#008577</color>
     <color name="color_primary_dark">#00574B</color>
     <color name="color_accent">#D81B60</color>
+    <!-- Button Colors -->
+    <color name="colorButtonBG">#333333</color>
+    <color name="colorButtonTxt">#c4c4c4</color>
+    <color name="colorButtonResult">#FF9800</color>
 </resources>
