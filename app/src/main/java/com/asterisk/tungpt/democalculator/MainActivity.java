@@ -8,16 +8,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView tvInput1, tvInput2, tvFunc, tvResult;
-    Button btnClear, btnPercent, btnDel, btnAdd, btnSub,
+    private TextView tvInput1, tvInput2, tvFunc, tvResult;
+    private Button btnClear, btnPercent, btnDel, btnAdd, btnSub,
             btnMul, btnDiv, btnSeven, btnEight, btnNine,
             btnFour, btnFive, btnSix, btnOne, btnTwo,
             btnThree, btnResult, btnDot, btnZero;
-    private static StringBuilder mInput1 = new StringBuilder();
-    private static StringBuilder mInput2 = new StringBuilder();
-    private static String mFunc = "";
-    private static String mResult = "";
-    private static boolean mFlag;
+    private StringBuilder mInput1 = new StringBuilder();
+    private StringBuilder mInput2 = new StringBuilder();
+    private String mFunc = "";
+    private String mResult = "";
+    private boolean mFlag = false;
+    final String ADD = "+";
+    final String SUB = "-";
+    final String MUL = "x";
+    final String DIV = "/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setControls() {
-        tvInput1 = findViewById(R.id.textview_input1);
-        tvFunc = findViewById(R.id.textview_func);
-        tvInput2 = findViewById(R.id.textview_input2);
-        tvResult = findViewById(R.id.textview_result);
+        tvInput1 = findViewById(R.id.text_input1);
+        tvFunc = findViewById(R.id.text_func);
+        tvInput2 = findViewById(R.id.text_input2);
+        tvResult = findViewById(R.id.text_result);
         btnClear = findViewById(R.id.button_clear);
         btnAdd = findViewById(R.id.button_add);
         btnClear = findViewById(R.id.button_clear);
@@ -86,160 +90,177 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 clear();
                 break;
             case R.id.button_percent:
-                if(mResult.length() != 0) {
-                    replaceInput1ByResult();
-                    mInput1.append("%");
-                    setView(tvInput1, mInput1);
-                    mInput2 = new StringBuilder();
-                    mFunc = "";
-                    mResult = String.valueOf(Float.parseFloat(mResult)/100);
-                    setView(tvResult, mResult);
-                }
-                else if(mInput2.length() != 0){
-                    float ip2 = Float.parseFloat(mInput2.toString())/100;
-                    mInput2 = new StringBuilder();
-                    mInput2.append(ip2);
-                    float ip1 = Float.parseFloat(mInput1.toString());
-                    setView(tvInput2, mInput2);
-                    checkResult(ip1, ip2);
-                }
-                else {
-                    float ip1 = (Float.parseFloat(mInput1.toString())/100);
-                    mInput1 = new StringBuilder();
-                    mInput1.append(ip1);
-                    mInput2 = new StringBuilder();
-                    mFunc = "";
-                    setView(tvInput1, mInput1);
+                if(mInput1.length() != 0 || mResult.length() != 0){
+                    if(mResult.length() != 0) {
+                        replaceInput1ByResult();
+                        mInput1.append(getResources().getString(R.string.percent));
+                        setView(tvInput1, mInput1);
+                        mInput2 = new StringBuilder();
+                        mFunc = getResources().getString(R.string.empty);
+                        mResult = String.valueOf(Float.parseFloat(mResult)/100);
+                        setView(tvResult, mResult);
+                    }
+                    else if(mInput2.length() != 0){
+                        float ip2 = Float.parseFloat(mInput2.toString())/100;
+                        mInput2 = new StringBuilder();
+                        mInput2.append(ip2);
+                        float ip1 = Float.parseFloat(mInput1.toString());
+                        setView(tvInput2, mInput2);
+                        checkResult(ip1, ip2);
+                    }
+                    else {
+                        float ip1 = (Float.parseFloat(mInput1.toString())/100);
+                        mInput1 = new StringBuilder();
+                        mInput1.append(ip1);
+                        mInput2 = new StringBuilder();
+                        mFunc = getResources().getString(R.string.empty);
+                        setView(tvInput1, mInput1);
+                    }
                 }
                 break;
             case R.id.button_delete:
-                if(mFunc.length() == 0 && mInput1.length() != 0) mInput1.deleteCharAt(mInput1.length()-1);
+                if(mFunc.length() == 0 && mInput1.length() != 0)
+                        mInput1.deleteCharAt(mInput1.length()-1);
                 else if(mInput2.length() != 0) mInput2.deleteCharAt(mInput2.length()-1);
                 break;
             case R.id.button_mul:
                 if(mResult.length() != 0) saveResult();
-                if(mInput1.length() != 0) mFunc = "x";
+                if(mInput1.length() != 0)
+                        mFunc = getResources().getString(R.string.mul);
                 setView(tvFunc, mFunc);
                 break;
             case R.id.button_div:
                 if(mResult.length() != 0) saveResult();
-                if(mInput1.length()!=0) mFunc = "/";
+                if(mInput1.length()!=0)
+                        mFunc = getResources().getString(R.string.div);
                 setView(tvFunc, mFunc);
                 break;
             case R.id.button_sub:
                 if(mResult.length() != 0) saveResult();
-                if(mInput1.length()!=0) mFunc = "-";
+                if(mInput1.length()!=0)
+                        mFunc = getResources().getString(R.string.sub);
                 setView(tvFunc, mFunc);
                 break;
             case R.id.button_add:
                 if(mResult.length() != 0) saveResult();
-                if(mInput1.length()!=0) mFunc = "+";
+                if(mInput1.length()!=0)
+                        mFunc = getResources().getString(R.string.add);
                 setView(tvFunc, mFunc);
                 break;
             case R.id.button_dot:
-                if(mFunc.equals("")) mInput1.append(".");
+                if(mInput1.length() == 0)
+                        mInput1.append(getResources().getString(R.string.zero_dot));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("0.");
+                    mInput2.append(getResources().getString(R.string.zero_dot));
                     mFlag = true;
                 }
-                else if(mInput2.length()==0) mInput2.append("0.");
-                else mInput2.append(".");
+                else if(mInput1.length() != 0 && mFunc.length() == 0)
+                        mInput1.append(getResources().getString(R.string.dot));
+                else if(mInput2.length() ==0)
+                        mInput2.append(getResources().getString(R.string.zero_dot));
+                else mInput2.append(getResources().getString(R.string.dot));
                 break;
             case R.id.button_zero:
-                if(mFunc.equals("")) mInput1.append("0");
+                if(mFunc.equals(getResources().getString(R.string.empty)))
+                        mInput1.append(getResources().getString(R.string.zero));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("0");
+                    mInput2.append(getResources().getString(R.string.zero));
                     mFlag = true;
                 }
-                else mInput2.append("0");
+                else mInput2.append(getResources().getString(R.string.zero));
                 break;
             case R.id.button_one:
-                if(mFunc.equals("")) mInput1.append("1");
+                if(mFunc.equals(getResources().getString(R.string.empty))) mInput1.append(getResources().getString(R.string.one));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("1");
+                    mInput2.append(getResources().getString(R.string.one));
                     mFlag = true;
                 }
-                else mInput2.append("1");
+                else mInput2.append(getResources().getString(R.string.one));
                 break;
             case R.id.button_two:
-                if(mFunc.equals("")) mInput1.append("2");
+                if(mFunc.equals(getResources().getString(R.string.empty))) mInput1.append(getResources().getString(R.string.two));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("2");
+                    mInput2.append(getResources().getString(R.string.two));
                     mFlag = true;
                 }
-                else mInput2.append("2");
+                else mInput2.append(getResources().getString(R.string.two));
                 break;
             case R.id.button_three:
-                if(mFunc.equals("")) mInput1.append("3");
+                if(mFunc.equals(getResources().getString(R.string.empty))) mInput1.append(getResources().getString(R.string.three));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("3");
+                    mInput2.append(getResources().getString(R.string.three));
                     mFlag = true;
                 }
-                else mInput2.append("3");
+                else mInput2.append(getResources().getString(R.string.three));
                 break;
             case R.id.button_four:
-                if(mFunc.equals("")) mInput1.append("4");
+                if(mFunc.equals(getResources().getString(R.string.empty))) mInput1.append(getResources().getString(R.string.four));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("4");
+                    mInput2.append(getResources().getString(R.string.four));
                     mFlag = true;
                 }
-                else mInput2.append("4");
+                else mInput2.append(getResources().getString(R.string.four));
                 break;
             case R.id.button_five:
-                if(mFunc.equals("")) mInput1.append("5");
+                if(mFunc.equals(getResources().getString(R.string.empty)))
+                        mInput1.append(getResources().getString(R.string.five));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("5");
+                    mInput2.append(getResources().getString(R.string.five));
                     mFlag = true;
                 }
-                else mInput2.append("5");
+                else mInput2.append(getResources().getString(R.string.five));
                 break;
             case R.id.button_six:
-                if(mFunc.equals("")) mInput1.append("6");
+                if(mFunc.equals(getResources().getString(R.string.empty)))
+                        mInput1.append(getResources().getString(R.string.six));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("6");
+                    mInput2.append(getResources().getString(R.string.six));
                     mFlag = true;
                 }
-                else mInput2.append("6");
+                else mInput2.append(getResources().getString(R.string.six));
                 break;
             case R.id.button_seven:
-                if(mFunc.equals("")) mInput1.append("7");
+                if(mFunc.equals(getResources().getString(R.string.empty)))
+                        mInput1.append(getResources().getString(R.string.seven));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("7");
+                    mInput2.append(getResources().getString(R.string.seven));
                     mFlag = true;
                 }
-                else mInput2.append("7");
+                else mInput2.append(getResources().getString(R.string.seven));
                 break;
             case R.id.button_eight:
-                if(mFunc.equals("")) mInput1.append("8");
+                if(mFunc.equals(getResources().getString(R.string.empty)))
+                        mInput1.append(getResources().getString(R.string.eight));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("8");
+                    mInput2.append(getResources().getString(R.string.eight));
                     mFlag = true;
                 }
-                else mInput2.append("8");
+                else mInput2.append(getResources().getString(R.string.eight));
                 break;
             case R.id.button_nine:
-                if(mFunc.equals("")) mInput1.append("9");
+                if(mFunc.equals(getResources().getString(R.string.empty)))
+                        mInput1.append(getResources().getString(R.string.nine));
                 else if(mResult.length()!=0 && !mFlag){
                     saveResult();
-                    mInput2.append("9");
+                    mInput2.append(getResources().getString(R.string.nine));
                     mFlag = true;
                 }
-                else mInput2.append("9");
+                else mInput2.append(getResources().getString(R.string.nine));
                 break;
             case R.id.button_result:
                 if(mInput1.length() == 0 || mInput2.length() == 0) {
                     Toast.makeText(this,
-                            "Vui lòng nhập phép tính",
+                            getResources().getString(R.string.enter_input),
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -261,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void checkResult(float ip1, float ip2) {
         float kq = 0;
         switch (mFunc) {
-            case "+":
+            case ADD:
                 kq = ip1 + ip2;
                 if(mResult.length() != 0){
                     showResult(kq);
@@ -272,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else showResult(kq);
                 break;
-            case "-":
+            case SUB:
                 kq = ip1 - ip2;
                 if(mResult.length() != 0){
                     showResult(kq);
@@ -283,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else showResult(kq);
                 break;
-            case "x":
+            case MUL:
                 kq = ip1 * ip2;
                 if(mResult.length() != 0){
                     showResult(kq);
@@ -294,10 +315,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else showResult(kq);
                 break;
-            case "/":
+            case DIV:
                 if (Float.parseFloat(mInput2.toString()) == 0) {
                     clear();
-                    Toast.makeText(this, "Phép chia không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            getResources().getString(R.string.div_zero),
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     kq = ip1/ip2;
                     if(mResult.length() != 0){
@@ -316,7 +339,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(kq%1 != 0) mResult = String.valueOf(kq);
         else mResult = String.valueOf((int)kq);
         if(kq > 2147483647)
-            Toast.makeText(this, "Kết quả quá lớn, ngoài khả năng tính toán của máy ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    getResources().getString(R.string.out_of_value),
+                    Toast.LENGTH_SHORT).show();
     }
     private void setView(TextView view, String string){
         if(view != null) view.setText(string);
@@ -337,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void clear(){
         mInput1 = new StringBuilder();
         mInput2 = new StringBuilder();
-        mFunc = "";
-        mResult = "";
+        mFunc = getResources().getString(R.string.empty);
+        mResult = getResources().getString(R.string.empty);
     }
 }

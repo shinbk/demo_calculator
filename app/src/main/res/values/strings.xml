@@ -18,6 +18,11 @@
     <string name="two">2</string>
     <string name="three">3</string>
     <string name="dot">.</string>
+    <string name="zero_dot">0.</string>
     <string name="zero">0</string>
+    <string name="empty"></string>
     <string name="result">=</string>
+    <string name="enter_input">Vui lòng nhập phép tính</string>
+    <string name="div_zero">Phép chia không hợp lệ</string>
+    <string name="out_of_value">Kết quả quá lớn, ngoài khả năng tính toán của máy</string>
 </resources>
