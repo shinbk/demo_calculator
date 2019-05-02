@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_margin_bottom">2dp</dimen>
+    <dimen name="button_margin_all">2dp</dimen>
+    <dimen name="layout_margin_all">2dp</dimen>
+    <dimen name="text_button_delete">40sp</dimen>
+    <dimen name="button_layout_width">0dp</dimen>
+    <dimen name="button_layout_height">0dp</dimen>
+    <dimen name="constraint_layout_margin_top">8dp</dimen>
+    <dimen name="constraint_layout_margin_bottom">8dp</dimen>
+    <dimen name="button_mul_text_size">20sp</dimen>
+    <dimen name="text_size_input">40sp</dimen>
+    <dimen name="text_size_result">50sp</dimen>
+    <dimen name="padidng_result">8dp</dimen>
+    <dimen name="padidng_bottom_input2">8dp</dimen>
+    <dimen name="padding_start_func">8dp</dimen>
+    <dimen name="padding_top_input1">8dp</dimen>
+    <dimen name="screen_margin_layout">10dp</dimen>
+</resources>
